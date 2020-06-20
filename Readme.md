@@ -1,4 +1,4 @@
-# wrap_quiche
+# wrap_rsvg
 `wrap_rsvg` is an Eiffel binding of [Librsv C API](https://github.com/GNOME/librsvg) 
 using [WrapC](https://github.com/eiffel-wrap-c/WrapC) tool.
 
