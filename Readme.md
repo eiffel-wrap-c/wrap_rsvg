@@ -12,9 +12,6 @@ This is librsvg - A small library to render Scalable Vector Graphics (SVG), asso
 
 ## Download and  Install
 
-Check the travis file 
-https://github.com/cloudflare/quiche/blob/master/.travis.yml
-
 ### Linux
 
 	
