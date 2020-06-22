@@ -20,6 +20,9 @@ Using vckpg
 
 		vckpg install librsvg:x64-windows
 
+Copy the `.lib` files `rsvg-2.40.lib` and `cairo.lib` to `$ECF_CONFIG_PATH/C/lib`.
+Be sure to have the `dlls` in the PATH before running the example.
+
 ## Status
 
 Work in progress
