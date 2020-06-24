@@ -36,10 +36,19 @@
 			</condition>		
 		</external_include>
 
+			<!-- Include headers for the C target library -->
+		<external_include location="/usr/local/include/librsvg-2.0/librsvg">
+			<condition>
+				<platform excluded_value="windows"/>
+			</condition>		
+		</external_include>
 
-		
+		<external_cflag value="-I/usr/include/glib-2.0/ -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ -I/usr/include/gdk-pixbuf-2.0/ -I/usr/include/cairo/">
+			<condition>
+				<platform excluded_value="windows"/>
+			</condition>
+		</external_cflag>
 	
-		
 		<!-- Manual Wrapper add this only if it's needed 
 		
 		<external_include location="$ECF_CONFIG_PATH\manual_wrapper\c\include">
@@ -61,20 +70,20 @@
 				<platform value="windows"/>
 			</condition>
 		</external_object>
-		<external_object location="$ECF_CONFIG_PATH/C/spec/$(ISE_PLATFORM)/lib/eif_librsvg.a">
+		<external_object location="/usr/local/lib/librsvg-2.so ">
 			<condition>
 				<platform excluded_value="windows"/>
 			</condition>
 		</external_object>
-
 
 		<!-- External C library -->
-		<external_object location="/usr/local/lib/librsvg.so">
+		<external_object location="/usr/lib/x86_64-linux-gnu/libcairo.so">
 			<condition>
 				<platform excluded_value="windows"/>
 			</condition>
 		</external_object>
-		
+
+	
 		<external_object location="$ECF_CONFIG_PATH/C/lib/rsvg-2.40.lib">
 			<condition>
 				<platform value="windows"/>

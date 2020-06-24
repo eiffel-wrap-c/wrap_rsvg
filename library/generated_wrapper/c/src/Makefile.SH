@@ -14,7 +14,7 @@ $spitshell >Makefile <<!GROK!THIS!
 SHELL = /bin/sh
 CC= $cc
 AR = ar rc
-CFLAGS = $optimize $ccflags $large -I$rt_include -I../../../generated_wrapper/c/include -I../include `pkg-config --cflags librsvg` -I../../../C/include
+CFLAGS = $optimize $ccflags $large -I$rt_include -I../../../generated_wrapper/c/include -I../../../C/include/linux -I/usr/include/glib-2.0/ -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ -I/usr/include/gdk-pixbuf-2.0/ -I/usr/include/cairo/ -I/usr/local/include/librsvg-2.0/librsvg
 LDFLAGS = $ldflags
 LIBS = $libs
 MAKE = $make

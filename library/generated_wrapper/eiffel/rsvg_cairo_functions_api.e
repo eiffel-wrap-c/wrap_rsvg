@@ -26,6 +26,53 @@ feature -- Access
 			instance_free: class
 		end
 
+	rsvg_handle_render_document (handle: RSVG_HANDLE_STRUCT_API; cr: CAIRO_STRUCT_API; viewport: RSVG_RECTANGLE_STRUCT_API; error: GERROR_STRUCT_API): INTEGER 
+		do
+			Result := c_rsvg_handle_render_document (handle.item, cr.item, viewport.item, error.item)
+		ensure
+			instance_free: class
+		end
+
+	rsvg_handle_get_geometry_for_layer (handle: RSVG_HANDLE_STRUCT_API; id: STRING_8; viewport: RSVG_RECTANGLE_STRUCT_API; out_ink_rect: RSVG_RECTANGLE_STRUCT_API; out_logical_rect: RSVG_RECTANGLE_STRUCT_API; error: GERROR_STRUCT_API): INTEGER 
+		local
+			id_c_string: C_STRING
+		do
+			create id_c_string.make (id)
+			Result := c_rsvg_handle_get_geometry_for_layer (handle.item, id_c_string.item, viewport.item, out_ink_rect.item, out_logical_rect.item, error.item)
+		ensure
+			instance_free: class
+		end
+
+	rsvg_handle_render_layer (handle: RSVG_HANDLE_STRUCT_API; cr: CAIRO_STRUCT_API; id: STRING_8; viewport: RSVG_RECTANGLE_STRUCT_API; error: GERROR_STRUCT_API): INTEGER 
+		local
+			id_c_string: C_STRING
+		do
+			create id_c_string.make (id)
+			Result := c_rsvg_handle_render_layer (handle.item, cr.item, id_c_string.item, viewport.item, error.item)
+		ensure
+			instance_free: class
+		end
+
+	rsvg_handle_get_geometry_for_element (handle: RSVG_HANDLE_STRUCT_API; id: STRING_8; out_ink_rect: RSVG_RECTANGLE_STRUCT_API; out_logical_rect: RSVG_RECTANGLE_STRUCT_API; error: GERROR_STRUCT_API): INTEGER 
+		local
+			id_c_string: C_STRING
+		do
+			create id_c_string.make (id)
+			Result := c_rsvg_handle_get_geometry_for_element (handle.item, id_c_string.item, out_ink_rect.item, out_logical_rect.item, error.item)
+		ensure
+			instance_free: class
+		end
+
+	rsvg_handle_render_element (handle: RSVG_HANDLE_STRUCT_API; cr: CAIRO_STRUCT_API; id: STRING_8; element_viewport: RSVG_RECTANGLE_STRUCT_API; error: GERROR_STRUCT_API): INTEGER 
+		local
+			id_c_string: C_STRING
+		do
+			create id_c_string.make (id)
+			Result := c_rsvg_handle_render_element (handle.item, cr.item, id_c_string.item, element_viewport.item, error.item)
+		ensure
+			instance_free: class
+		end
+
 feature -- Externals
 
 	c_rsvg_handle_render_cairo (handle: POINTER; cr: POINTER): INTEGER
@@ -43,6 +90,51 @@ feature -- Externals
 		alias
 			"[
 				return rsvg_handle_render_cairo_sub ((RsvgHandle*)$handle, (cairo_t*)$cr, (char const*)$id);
+			]"
+		end
+
+	c_rsvg_handle_render_document (handle: POINTER; cr: POINTER; viewport: POINTER; error: POINTER): INTEGER
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				return rsvg_handle_render_document ((RsvgHandle*)$handle, (cairo_t*)$cr, (RsvgRectangle const*)$viewport, (GError**)$error);
+			]"
+		end
+
+	c_rsvg_handle_get_geometry_for_layer (handle: POINTER; id: POINTER; viewport: POINTER; out_ink_rect: POINTER; out_logical_rect: POINTER; error: POINTER): INTEGER
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				return rsvg_handle_get_geometry_for_layer ((RsvgHandle*)$handle, (char const*)$id, (RsvgRectangle const*)$viewport, (RsvgRectangle*)$out_ink_rect, (RsvgRectangle*)$out_logical_rect, (GError**)$error);
+			]"
+		end
+
+	c_rsvg_handle_render_layer (handle: POINTER; cr: POINTER; id: POINTER; viewport: POINTER; error: POINTER): INTEGER
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				return rsvg_handle_render_layer ((RsvgHandle*)$handle, (cairo_t*)$cr, (char const*)$id, (RsvgRectangle const*)$viewport, (GError**)$error);
+			]"
+		end
+
+	c_rsvg_handle_get_geometry_for_element (handle: POINTER; id: POINTER; out_ink_rect: POINTER; out_logical_rect: POINTER; error: POINTER): INTEGER
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				return rsvg_handle_get_geometry_for_element ((RsvgHandle*)$handle, (char const*)$id, (RsvgRectangle*)$out_ink_rect, (RsvgRectangle*)$out_logical_rect, (GError**)$error);
+			]"
+		end
+
+	c_rsvg_handle_render_element (handle: POINTER; cr: POINTER; id: POINTER; element_viewport: POINTER; error: POINTER): INTEGER
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				return rsvg_handle_render_element ((RsvgHandle*)$handle, (cairo_t*)$cr, (char const*)$id, (RsvgRectangle const*)$element_viewport, (GError**)$error);
 			]"
 		end
 

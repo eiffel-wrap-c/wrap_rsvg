@@ -27,6 +27,15 @@ feature -- Access
 			]"
 		end
 
+	rsvg_error_get_type: INTEGER
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				return rsvg_error_get_type ();
+			]"
+		end
+
 	rsvg_cleanup
 		external
 			"C inline use <rsvg.h>"
@@ -172,6 +181,22 @@ feature -- Access
 			instance_free: class
 		end
 
+	rsvg_handle_get_intrinsic_dimensions (handle: RSVG_HANDLE_STRUCT_API; out_has_width: POINTER; out_width: RSVG_LENGTH_STRUCT_API; out_has_height: POINTER; out_height: RSVG_LENGTH_STRUCT_API; out_has_viewbox: POINTER; out_viewbox: RSVG_RECTANGLE_STRUCT_API) 
+		do
+			c_rsvg_handle_get_intrinsic_dimensions (handle.item, out_has_width, out_width.item, out_has_height, out_height.item, out_has_viewbox, out_viewbox.item)
+		ensure
+			instance_free: class
+		end
+
+	rsvg_handle_flags_get_type: INTEGER
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				return rsvg_handle_flags_get_type ();
+			]"
+		end
+
 	rsvg_handle_new_with_flags (flags: INTEGER): detachable RSVG_HANDLE_STRUCT_API 
 		do
 			if attached c_rsvg_handle_new_with_flags (flags) as l_ptr and then not l_ptr.is_default_pointer then
@@ -229,15 +254,25 @@ feature -- Access
 			instance_free: class
 		end
 
-	rsvg_handle_new_from_file (file_name: STRING_8; error: GERROR_STRUCT_API): detachable RSVG_HANDLE_STRUCT_API 
+	rsvg_handle_new_from_file (filename: STRING_8; error: GERROR_STRUCT_API): detachable RSVG_HANDLE_STRUCT_API 
 		local
-			file_name_c_string: C_STRING
+			filename_c_string: C_STRING
 		do
-			create file_name_c_string.make (file_name)
-			if attached c_rsvg_handle_new_from_file (file_name_c_string.item, error.item) as l_ptr and then not l_ptr.is_default_pointer then
+			create filename_c_string.make (filename)
+			if attached c_rsvg_handle_new_from_file (filename_c_string.item, error.item) as l_ptr and then not l_ptr.is_default_pointer then
 				create Result.make_by_pointer ( l_ptr )
 			end
 
+		ensure
+			instance_free: class
+		end
+
+	rsvg_handle_set_stylesheet (handle: RSVG_HANDLE_STRUCT_API; css: STRING_8; css_len: INTEGER; error: GERROR_STRUCT_API): INTEGER 
+		local
+			css_c_string: C_STRING
+		do
+			create css_c_string.make (css)
+			Result := c_rsvg_handle_set_stylesheet (handle.item, css_c_string.item, css_len, error.item)
 		ensure
 			instance_free: class
 		end
@@ -274,12 +309,12 @@ feature -- Access
 			instance_free: class
 		end
 
-	rsvg_pixbuf_from_file (file_name: STRING_8; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
+	rsvg_pixbuf_from_file (filename: STRING_8; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
 		local
-			file_name_c_string: C_STRING
+			filename_c_string: C_STRING
 		do
-			create file_name_c_string.make (file_name)
-			if attached c_rsvg_pixbuf_from_file (file_name_c_string.item, error.item) as l_ptr and then not l_ptr.is_default_pointer then
+			create filename_c_string.make (filename)
+			if attached c_rsvg_pixbuf_from_file (filename_c_string.item, error.item) as l_ptr and then not l_ptr.is_default_pointer then
 				create Result.make_by_pointer ( l_ptr )
 			end
 
@@ -287,12 +322,12 @@ feature -- Access
 			instance_free: class
 		end
 
-	rsvg_pixbuf_from_file_at_zoom (file_name: STRING_8; x_zoom: REAL_64; y_zoom: REAL_64; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
+	rsvg_pixbuf_from_file_at_zoom (filename: STRING_8; x_zoom: REAL_64; y_zoom: REAL_64; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
 		local
-			file_name_c_string: C_STRING
+			filename_c_string: C_STRING
 		do
-			create file_name_c_string.make (file_name)
-			if attached c_rsvg_pixbuf_from_file_at_zoom (file_name_c_string.item, x_zoom, y_zoom, error.item) as l_ptr and then not l_ptr.is_default_pointer then
+			create filename_c_string.make (filename)
+			if attached c_rsvg_pixbuf_from_file_at_zoom (filename_c_string.item, x_zoom, y_zoom, error.item) as l_ptr and then not l_ptr.is_default_pointer then
 				create Result.make_by_pointer ( l_ptr )
 			end
 
@@ -300,12 +335,12 @@ feature -- Access
 			instance_free: class
 		end
 
-	rsvg_pixbuf_from_file_at_size (file_name: STRING_8; width: INTEGER; height: INTEGER; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
+	rsvg_pixbuf_from_file_at_size (filename: STRING_8; width: INTEGER; height: INTEGER; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
 		local
-			file_name_c_string: C_STRING
+			filename_c_string: C_STRING
 		do
-			create file_name_c_string.make (file_name)
-			if attached c_rsvg_pixbuf_from_file_at_size (file_name_c_string.item, width, height, error.item) as l_ptr and then not l_ptr.is_default_pointer then
+			create filename_c_string.make (filename)
+			if attached c_rsvg_pixbuf_from_file_at_size (filename_c_string.item, width, height, error.item) as l_ptr and then not l_ptr.is_default_pointer then
 				create Result.make_by_pointer ( l_ptr )
 			end
 
@@ -313,12 +348,12 @@ feature -- Access
 			instance_free: class
 		end
 
-	rsvg_pixbuf_from_file_at_max_size (file_name: STRING_8; max_width: INTEGER; max_height: INTEGER; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
+	rsvg_pixbuf_from_file_at_max_size (filename: STRING_8; max_width: INTEGER; max_height: INTEGER; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
 		local
-			file_name_c_string: C_STRING
+			filename_c_string: C_STRING
 		do
-			create file_name_c_string.make (file_name)
-			if attached c_rsvg_pixbuf_from_file_at_max_size (file_name_c_string.item, max_width, max_height, error.item) as l_ptr and then not l_ptr.is_default_pointer then
+			create filename_c_string.make (filename)
+			if attached c_rsvg_pixbuf_from_file_at_max_size (filename_c_string.item, max_width, max_height, error.item) as l_ptr and then not l_ptr.is_default_pointer then
 				create Result.make_by_pointer ( l_ptr )
 			end
 
@@ -326,12 +361,12 @@ feature -- Access
 			instance_free: class
 		end
 
-	rsvg_pixbuf_from_file_at_zoom_with_max (file_name: STRING_8; x_zoom: REAL_64; y_zoom: REAL_64; max_width: INTEGER; max_height: INTEGER; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
+	rsvg_pixbuf_from_file_at_zoom_with_max (filename: STRING_8; x_zoom: REAL_64; y_zoom: REAL_64; max_width: INTEGER; max_height: INTEGER; error: GERROR_STRUCT_API): detachable GDK_PIXBUF_STRUCT_API 
 		local
-			file_name_c_string: C_STRING
+			filename_c_string: C_STRING
 		do
-			create file_name_c_string.make (file_name)
-			if attached c_rsvg_pixbuf_from_file_at_zoom_with_max (file_name_c_string.item, x_zoom, y_zoom, max_width, max_height, error.item) as l_ptr and then not l_ptr.is_default_pointer then
+			create filename_c_string.make (filename)
+			if attached c_rsvg_pixbuf_from_file_at_zoom_with_max (filename_c_string.item, x_zoom, y_zoom, max_width, max_height, error.item) as l_ptr and then not l_ptr.is_default_pointer then
 				create Result.make_by_pointer ( l_ptr )
 			end
 
@@ -479,6 +514,15 @@ feature -- Externals
 			]"
 		end
 
+	c_rsvg_handle_get_intrinsic_dimensions (handle: POINTER; out_has_width: POINTER; out_width: POINTER; out_has_height: POINTER; out_height: POINTER; out_has_viewbox: POINTER; out_viewbox: POINTER)
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				rsvg_handle_get_intrinsic_dimensions ((RsvgHandle*)$handle, (gboolean*)$out_has_width, (RsvgLength*)$out_width, (gboolean*)$out_has_height, (RsvgLength*)$out_height, (gboolean*)$out_has_viewbox, (RsvgRectangle*)$out_viewbox);
+			]"
+		end
+
 	c_rsvg_handle_new_with_flags (flags: INTEGER): POINTER
 		external
 			"C inline use <rsvg.h>"
@@ -533,12 +577,21 @@ feature -- Externals
 			]"
 		end
 
-	c_rsvg_handle_new_from_file (file_name: POINTER; error: POINTER): POINTER
+	c_rsvg_handle_new_from_file (filename: POINTER; error: POINTER): POINTER
 		external
 			"C inline use <rsvg.h>"
 		alias
 			"[
-				return rsvg_handle_new_from_file ((gchar const*)$file_name, (GError**)$error);
+				return rsvg_handle_new_from_file ((gchar const*)$filename, (GError**)$error);
+			]"
+		end
+
+	c_rsvg_handle_set_stylesheet (handle: POINTER; css: POINTER; css_len: INTEGER; error: POINTER): INTEGER
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				return rsvg_handle_set_stylesheet ((RsvgHandle*)$handle, (guint8 const*)$css, (gsize)$css_len, (GError**)$error);
 			]"
 		end
 
@@ -560,48 +613,48 @@ feature -- Externals
 			]"
 		end
 
-	c_rsvg_pixbuf_from_file (file_name: POINTER; error: POINTER): POINTER
+	c_rsvg_pixbuf_from_file (filename: POINTER; error: POINTER): POINTER
 		external
 			"C inline use <rsvg.h>"
 		alias
 			"[
-				return rsvg_pixbuf_from_file ((gchar const*)$file_name, (GError**)$error);
+				return rsvg_pixbuf_from_file ((gchar const*)$filename, (GError**)$error);
 			]"
 		end
 
-	c_rsvg_pixbuf_from_file_at_zoom (file_name: POINTER; x_zoom: REAL_64; y_zoom: REAL_64; error: POINTER): POINTER
+	c_rsvg_pixbuf_from_file_at_zoom (filename: POINTER; x_zoom: REAL_64; y_zoom: REAL_64; error: POINTER): POINTER
 		external
 			"C inline use <rsvg.h>"
 		alias
 			"[
-				return rsvg_pixbuf_from_file_at_zoom ((gchar const*)$file_name, (double)$x_zoom, (double)$y_zoom, (GError**)$error);
+				return rsvg_pixbuf_from_file_at_zoom ((gchar const*)$filename, (double)$x_zoom, (double)$y_zoom, (GError**)$error);
 			]"
 		end
 
-	c_rsvg_pixbuf_from_file_at_size (file_name: POINTER; width: INTEGER; height: INTEGER; error: POINTER): POINTER
+	c_rsvg_pixbuf_from_file_at_size (filename: POINTER; width: INTEGER; height: INTEGER; error: POINTER): POINTER
 		external
 			"C inline use <rsvg.h>"
 		alias
 			"[
-				return rsvg_pixbuf_from_file_at_size ((gchar const*)$file_name, (gint)$width, (gint)$height, (GError**)$error);
+				return rsvg_pixbuf_from_file_at_size ((gchar const*)$filename, (gint)$width, (gint)$height, (GError**)$error);
 			]"
 		end
 
-	c_rsvg_pixbuf_from_file_at_max_size (file_name: POINTER; max_width: INTEGER; max_height: INTEGER; error: POINTER): POINTER
+	c_rsvg_pixbuf_from_file_at_max_size (filename: POINTER; max_width: INTEGER; max_height: INTEGER; error: POINTER): POINTER
 		external
 			"C inline use <rsvg.h>"
 		alias
 			"[
-				return rsvg_pixbuf_from_file_at_max_size ((gchar const*)$file_name, (gint)$max_width, (gint)$max_height, (GError**)$error);
+				return rsvg_pixbuf_from_file_at_max_size ((gchar const*)$filename, (gint)$max_width, (gint)$max_height, (GError**)$error);
 			]"
 		end
 
-	c_rsvg_pixbuf_from_file_at_zoom_with_max (file_name: POINTER; x_zoom: REAL_64; y_zoom: REAL_64; max_width: INTEGER; max_height: INTEGER; error: POINTER): POINTER
+	c_rsvg_pixbuf_from_file_at_zoom_with_max (filename: POINTER; x_zoom: REAL_64; y_zoom: REAL_64; max_width: INTEGER; max_height: INTEGER; error: POINTER): POINTER
 		external
 			"C inline use <rsvg.h>"
 		alias
 			"[
-				return rsvg_pixbuf_from_file_at_zoom_with_max ((gchar const*)$file_name, (double)$x_zoom, (double)$y_zoom, (gint)$max_width, (gint)$max_height, (GError**)$error);
+				return rsvg_pixbuf_from_file_at_zoom_with_max ((gchar const*)$filename, (double)$x_zoom, (double)$y_zoom, (gint)$max_width, (gint)$max_height, (GError**)$error);
 			]"
 		end
 
