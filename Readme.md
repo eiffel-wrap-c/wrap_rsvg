@@ -16,6 +16,9 @@ This is librsvg - A small library to render Scalable Vector Graphics (SVG), asso
 Here I will describe the installation for Ubuntu check the [librsvg documentation](https://github.com/GNOME/librsvg/blob/mainline/COMPILING.md) to know
 how to install it in other Platforms.
 
+We are using version [2.40.20](https://download.gnome.org/sources/librsvg/2.40/librsvg-2.40.19.tar.xz)
+
+
 ##### Installing dependencies
 
 	apt-get install -y gcc make rustc cargo \

@@ -46,6 +46,30 @@ feature {ANY} -- Member Access
 			parent_set: parent.item = a_value.item
 		end
 
+	priv: detachable RSVG_HANDLE_PRIVATE_STRUCT_API 
+			-- Access member `priv`
+		require
+			exists: exists
+		do
+			if attached c_priv (item) as l_ptr and then not l_ptr.is_default_pointer then
+				create Result.make_by_pointer (l_ptr)
+			end
+		ensure
+			result_void: Result = Void implies c_priv (item) = default_pointer 
+			result_not_void: attached Result as l_result implies l_result.item = c_priv (item) 
+		end
+
+	set_priv (a_value: RSVG_HANDLE_PRIVATE_STRUCT_API) 
+			-- Set member `priv`
+		require
+			a_value_not_void: a_value /= Void
+			exists: exists
+		do
+			set_c_priv (item, a_value.item)
+		ensure
+			priv_set: attached priv as l_value implies l_value.item = a_value.item
+		end
+
 	abi_padding: POINTER
 			-- Access member `_abi_padding`
 		require
@@ -85,6 +109,30 @@ feature {NONE} -- Implementation wrapper for struct struct _RsvgHandle
 			"[
 				((struct _RsvgHandle*)$an_item)->parent =  *(GObject*)$a_value
 			]"
+		end
+
+	c_priv (an_item: POINTER): POINTER
+		require
+			an_item_not_null: an_item /= default_pointer
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				((struct _RsvgHandle*)$an_item)->priv
+			]"
+		end
+
+	set_c_priv (an_item: POINTER; a_value: POINTER) 
+		require
+			an_item_not_null: an_item /= default_pointer
+		external
+			"C inline use <rsvg.h>"
+		alias
+			"[
+				((struct _RsvgHandle*)$an_item)->priv =  (RsvgHandlePrivate*)$a_value
+			]"
+		ensure
+			priv_set: a_value = c_priv (an_item)
 		end
 
 	c_abi_padding (an_item: POINTER): POINTER
