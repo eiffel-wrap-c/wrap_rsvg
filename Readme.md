@@ -66,7 +66,7 @@ Work in progress
 
 
 ## Examples
-* [SVG Rendering to PNG usign Cairo](examples/simple) `Shows how to SVG Rendering to PNG using Cairo`.
+* [SVG Rendering to PNG using Cairo](examples/simple) `Shows how to SVG Rendering to PNG using Cairo`.
 
 ### How to compile the C library glue code.
 
