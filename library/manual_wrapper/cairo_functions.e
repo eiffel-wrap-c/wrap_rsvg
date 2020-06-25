@@ -3,6 +3,7 @@ note
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
+	eis: "name=cairo functions", "src=https://www.cairographics.org/manual/cairo-cairo-t.html", "protocol=uri"
 
 class
 	CAIRO_FUNCTIONS

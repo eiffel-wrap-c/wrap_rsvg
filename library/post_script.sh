@@ -7,7 +7,7 @@
 
 
 #copy Makefile
-#cp Makefile.SH  ./generated_wrapper/c/src                          --example
+cp Makefile.SH  ./generated_wrapper/c/src                       
 
 cd generated_wrapper/c/src/
 finish_freezing -library

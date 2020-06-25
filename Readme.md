@@ -13,6 +13,43 @@ This is librsvg - A small library to render Scalable Vector Graphics (SVG), asso
 ## Download and  Install
 
 ### Linux
+Here I will describe the installation for Ubuntu check the [librsvg documentation](https://github.com/GNOME/librsvg/blob/mainline/COMPILING.md) to know
+how to install it in other Platforms.
+
+We are using version [2.40.20](https://download.gnome.org/sources/librsvg/2.40/librsvg-2.40.19.tar.xz)
+
+
+##### Installing dependencies
+
+	apt-get install -y gcc make rustc cargo \
+	automake autoconf libtool gettext itstool \
+	libgdk-pixbuf2.0-dev libgirepository1.0-dev \
+	gtk-doc-tools git \
+	libxml2-dev libcairo2-dev libpango1.0-dev libcroco3-dev
+	
+##### Basic compilation instructions
+
+If you are compiling a tarball:
+
+	./configure
+	make
+	make install
+
+See the [INSTALL](https://github.com/GNOME/librsvg/blob/mainline/INSTALL) file for details on options you can pass to the configure script to select where to install the compiled library.
+
+If you are compiling from a git checkout:
+
+	./autogen.sh
+	make
+	make install
+	
+
+##### Workaround LInux
+If you got the error `gdk-pixbuf-query-loaders not found in path` 
+
+	sudo ln -s /usr/lib/*/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders /usr/local/bin/gdk-pixbuf-query-loaders
+
+Now try again to compile and install the library.
 
 	
 ### Windows
@@ -29,7 +66,7 @@ Work in progress
 
 
 ## Examples
-* [SVG Rendering to PNG usign Cairo](examples/simple) `Shows how to SVG Rendering to PNG using Cairo`.
+* [SVG Rendering to PNG using Cairo](examples/simple) `Shows how to SVG Rendering to PNG using Cairo`.
 
 ### How to compile the C library glue code.
 
