@@ -1,0 +1,21 @@
+package wrap_rsvg
+
+project
+	wrap_rsvg = "library/wrap_rsvg.ecf"
+
+note
+	title: Eiffel wrap_rsvg
+	description: "[
+	wrap_rsvg is an Eiffel binding of Librsvg C API
+	
+	This is librsvg - A small library to render Scalable Vector Graphics (SVG), associated with the GNOME Project. It renders SVG files to Cairo surfaces. Cairo is the 2D, antialiased drawing library that GNOME uses to draw things to the screen or to generate output for printing.
+
+	]"
+
+	tags: svg, librsvg, library , wrapc 
+	license: EFL
+	copyright: Copyright (c)  2020 Javier Velilla, Eiffel Software and others.
+	link[license]: "license" "https://github.com/eiffel-wrap-c/wrap_rsvg/blob/master/license.lic"
+	link[github]: "project" https://github.com/eiffel-wrap-c/wrap_rsvg
+
+end
